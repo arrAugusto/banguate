@@ -1,27 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
 package com.mycompany.banguate;
 
-/**
- *
- * @author agr12
- */
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
+
 public class Banguate {
 
-    public static void main(String[] args) {
+    private static final Logger LOGGER = Logger.getLogger(Banguate.class.getName());
+
+    public static void main(String[] args) throws InterruptedException {
         try {
-            tipoCambio tc = new tipoCambio();
-            
-            // JSON completo con fecha, referencia, compra y venta
+            TipoCambio tc = new TipoCambio();
             String resultado = tc.getTipoCambioDia();
-            System.out.println(resultado);
-            
-            // Solo el valor numérico de referencia
+            LOGGER.info(resultado);
             double referencia = tc.getReferencia();
-            System.out.println("Q" + referencia);
-        } catch (Exception ex) {
-            System.getLogger(Banguate.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            LOGGER.info("Q" + referencia);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Error de red al consultar Banguat", ex);
+        } catch (ParserConfigurationException | SAXException ex) {
+            LOGGER.log(Level.SEVERE, "Error al parsear respuesta XML", ex);
         }
     }
 }
